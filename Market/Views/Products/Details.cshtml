@@ -1,0 +1,19 @@
+﻿@model Market.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1>@Model.Name</h1>
+
+<img src="@Model.ImagePath" alt="@Model.Name" width="600" />
+
+<h2>@Model.Category.Name</h2>
+
+<p><strong>Condition:</strong> @Model.Condition</p>
+<p><strong>Rarity:</strong> @Model.Rarity</p>
+<p><strong>Price:</strong> $@Model.Price</p>
+
+<p>@Model.Description</p>
+
+<a asp-action="Index">← Back to Market</a>

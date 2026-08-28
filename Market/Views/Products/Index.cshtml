@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Market.Models.Product>
+
+@{
+    ViewData["Title"] = "Amber Market";
+}
+
+<div class="market-header">
+    <h1>AMBER MARKET</h1>
+    <p>Counter-Strike 2 skins marketplace</p>
+</div>
+
+<div class="category-bar" id="categories">
+    @foreach (var category in Model.Select(p => p.Category).DistinctBy(c => c.Id))
+    {
+        <a href="#category-@category.Id">
+            @category.Name
+        </a>
+    }
+</div>
+
+@foreach (var category in Model.Select(p => p.Category).DistinctBy(c => c.Id))
+{
+    <section class="category-section" id="category-@category.Id">
+
+        <div class="category-title">
+            <h2>@category.Name</h2>
+        </div>
+
+        <div class="product-grid">
+
+            @foreach (var product in Model.Where(p => p.CategoryId == category.Id))
+            {
+                <a asp-action="Details"
+                   asp-route-id="@product.Id"
+                   class="product-card">
+
+                    <div class="skin-image">
+                        <span class="rarity-badge">@product.Rarity</span>
+
+                        <img src="@product.ImagePath"
+                             alt="@product.Name" />
+                    </div>
+
+                    <div class="product-info">
+
+                        <div class="product-name-row">
+                            <h2>@product.Name</h2>
+                        </div>
+
+                        <p class="weapon">
+                            @product.Category.Name
+                        </p>
+
+                        <div class="product-meta">
+                            <span class="condition">
+                                @product.Condition
+                            </span>
+
+                            <span class="price">
+                                $@product.Price
+                            </span>
+                        </div>
+
+                    </div>
+
+                </a>
+            }
+
+        </div>
+
+    </section>
+}
