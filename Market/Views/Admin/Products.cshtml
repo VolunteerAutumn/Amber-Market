@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Market.Models.Product>
+
+@{
+    ViewData["Title"] = "Manage Products";
+}
+
+<div class="container mt-4">
+    <h1>MANAGE PRODUCTS</h1>
+
+    <a asp-controller="Products"
+       asp-action="Create"
+       class="btn btn-success mb-3">
+        + ADD PRODUCT
+    </a>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Condition</th>
+                <th>Rarity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+
+                    <td>
+                        <img src="@product.ImagePath"
+                             alt="@product.Name"
+                             style="width: 80px; height: 60px; object-fit: contain;" />
+                    </td>
+
+                    <td>@product.Name</td>
+                    <td>@product.Category?.Name</td>
+                    <td>$@product.Price</td>
+                    <td>@product.Condition</td>
+                    <td>@product.Rarity</td>
+
+                    <td>
+                        <a asp-controller="Products"
+                           asp-action="Edit"
+                           asp-route-id="@product.Id"
+                           class="btn btn-warning btn-sm">
+                            EDIT
+                        </a>
+
+                        <a asp-controller="Products"
+                           asp-action="Delete"
+                           asp-route-id="@product.Id"
+                           class="btn btn-danger btn-sm">
+                            DELETE
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-controller="Admin"
+       asp-action="Index"
+       class="btn btn-secondary">
+        BACK
+    </a>
+</div>

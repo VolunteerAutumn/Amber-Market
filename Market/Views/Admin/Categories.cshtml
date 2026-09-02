@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Market.Models.Category>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="container mt-4">
+
+    <h1>MANAGE CATEGORIES</h1>
+
+    <a asp-controller="Categories"
+       asp-action="Create"
+       class="btn btn-success mb-3">
+        + ADD CATEGORY
+    </a>
+
+    <table class="table table-dark table-striped">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Skins</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Id</td>
+
+                    <td>@category.Name</td>
+
+                    <td>@category.Products.Count</td>
+
+                    <td>
+                        <a asp-controller="Categories"
+                           asp-action="Edit"
+                           asp-route-id="@category.Id"
+                           class="btn btn-warning btn-sm">
+                            EDIT
+                        </a>
+
+                        <a asp-controller="Categories"
+                           asp-action="Delete"
+                           asp-route-id="@category.Id"
+                           class="btn btn-danger btn-sm">
+                            DELETE
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <a asp-controller="Admin"
+       asp-action="Index"
+       class="btn btn-secondary">
+        BACK
+    </a>
+
+</div>

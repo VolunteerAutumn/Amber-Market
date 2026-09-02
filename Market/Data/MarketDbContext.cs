@@ -1,9 +1,10 @@
 ﻿using Market.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Market.Data
 {
-    public class MarketDbContext : DbContext
+    public class MarketDbContext : IdentityDbContext
     {
         public MarketDbContext(DbContextOptions<MarketDbContext> options)
             : base(options)

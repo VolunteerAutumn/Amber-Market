@@ -1,0 +1,43 @@
+﻿@model Market.Models.Category
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div class="container mt-4">
+
+    <h1>EDIT CATEGORY</h1>
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">
+                Category Name
+            </label>
+
+            <input asp-for="Name"
+                   class="form-control" />
+
+            <span asp-validation-for="Name"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit"
+                class="btn btn-warning">
+            SAVE CHANGES
+        </button>
+
+        <a asp-controller="Admin"
+           asp-action="Categories"
+           class="btn btn-secondary">
+            CANCEL
+        </a>
+
+    </form>
+
+</div>

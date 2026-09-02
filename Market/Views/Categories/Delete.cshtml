@@ -1,0 +1,59 @@
+﻿@model Market.Models.Category
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="container mt-4">
+
+    <h1>DELETE CATEGORY</h1>
+
+    <div class="alert alert-danger">
+
+        <h4>⚠️ ARE YOU SURE?</h4>
+
+        <p>
+            You are about to delete the category
+            <strong>@Model.Name</strong>.
+        </p>
+
+        <p>
+            This category currently contains
+            <strong>@Model.Products.Count</strong>
+            skin(s).
+        </p>
+
+        @if (Model.Products.Count > 0)
+        {
+            <p>
+                <strong>
+                    DELETING THIS CATEGORY WILL ALSO DELETE
+                    ALL SKINS INSIDE IT.
+                </strong>
+            </p>
+        }
+
+        <p>
+            <strong>This action cannot be undone.</strong>
+        </p>
+
+    </div>
+
+    <form asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit"
+                class="btn btn-danger">
+            YES, DELETE CATEGORY
+        </button>
+
+        <a asp-controller="Admin"
+           asp-action="Categories"
+           class="btn btn-secondary">
+            CANCEL
+        </a>
+
+    </form>
+
+</div>

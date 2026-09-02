@@ -1,0 +1,108 @@
+﻿@model Market.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="container mt-4">
+    <h1>EDIT PRODUCT</h1>
+
+    <form asp-action="Edit"
+          method="post"
+          enctype="multipart/form-data">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Price</label>
+            <input asp-for="Price"
+                   class="form-control"
+                   type="number"
+                   step="0.01" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Condition" class="form-label">Condition</label>
+            <input asp-for="Condition" class="form-control" />
+            <span asp-validation-for="Condition" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Rarity" class="form-label">Rarity</label>
+            <input asp-for="Rarity" class="form-control" />
+            <span asp-validation-for="Rarity" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description"
+                      class="form-control"
+                      rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Current Image</label>
+
+            <div>
+                <img src="@Model.ImagePath"
+                     alt="@Model.Name"
+                     style="max-width: 250px; max-height: 180px; object-fit: contain;" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Replace Image</label>
+
+            <input type="file"
+                   name="ImageFile"
+                   class="form-control"
+                   accept="image/*" />
+
+            <div class="form-text">
+                Leave empty to keep the current image.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="form-label">Category</label>
+
+            <select asp-for="CategoryId"
+                    class="form-select"
+                    required>
+
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <option value="@category.Id">
+                        @category.Name
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="CategoryId"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit"
+                class="btn btn-warning">
+            SAVE CHANGES
+        </button>
+
+        <a asp-controller="Admin"
+           asp-action="Products"
+           class="btn btn-secondary">
+            CANCEL
+        </a>
+
+    </form>
+</div>
