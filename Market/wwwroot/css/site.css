@@ -362,113 +362,351 @@ main {
    ========================= */
 
 .details-page {
-    max-width: 1200px;
-    margin: auto;
-    padding: 50px 30px 80px;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 45px 30px 100px;
 }
+
+
+/* =========================
+   BACK BUTTON
+   ========================= */
 
 .back-button {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 28px;
+    gap: 8px;
+    margin-bottom: 25px;
     color: #777;
-    font-size: 13px;
-    font-weight: bold;
-    transition: 0.2s ease;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
     .back-button:hover {
         color: #f0a500;
-        transform: translateX(-3px);
+        transform: translateX(-5px);
     }
 
+
+/* =========================
+   DETAILS CARD
+   ========================= */
+
 .details-card {
-    background: #141417;
-    border: 1px solid #29292f;
-    border-radius: 13px;
-    padding: 35px;
+    position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 45px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 55px;
+    padding: 35px;
+    background: radial-gradient( circle at 15% 15%, rgba(240, 165, 0, 0.035), transparent 35% ), #141417;
+    border: 1px solid #29292f;
+    border-radius: 15px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    animation: detailsAppear 0.45s ease both;
 }
 
+
+    /* subtle amber line */
+
+    .details-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 8%;
+        right: 8%;
+        height: 1px;
+        background: linear-gradient( 90deg, transparent, rgba(240, 165, 0, 0.55), transparent );
+    }
+
+
+/* =========================
+   IMAGE
+   ========================= */
+
 .details-image {
-    min-height: 450px;
+    position: relative;
+    min-height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient( circle at center, #292930 0%, #17171b 50%, #0e0e11 100% );
-    border-radius: 9px;
+    background: radial-gradient( circle at center, #303037 0%, #1b1b20 45%, #0d0d10 100% );
+    border: 1px solid #29292f;
+    border-radius: 11px;
     overflow: hidden;
 }
 
-    .details-image img {
-        width: 95%;
-        max-height: 450px;
-        object-fit: contain;
-        transition: transform 0.35s ease;
+
+    /* ambient glow */
+
+    .details-image::before {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: rgba(240, 165, 0, 0.05);
+        filter: blur(65px);
+        transition: 0.4s ease;
     }
+
+
+    /* diagonal shine */
+
+    .details-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 125deg, transparent 30%, rgba(255, 255, 255, 0.025) 50%, transparent 70% );
+        pointer-events: none;
+    }
+
+
+    .details-image img {
+        position: relative;
+        z-index: 1;
+        width: 92%;
+        max-height: 500px;
+        object-fit: contain;
+        filter: drop-shadow( 0 25px 30px rgba(0, 0, 0, 0.65) );
+        transition: transform 0.45s cubic-bezier(.2, .8, .2, 1), filter 0.45s ease;
+    }
+
+
+    .details-image:hover::before {
+        transform: scale(1.25);
+        background: rgba(240, 165, 0, 0.09);
+    }
+
 
     .details-image:hover img {
-        transform: scale(1.04);
+        transform: scale(1.055) translateY(-4px);
+        filter: drop-shadow( 0 30px 40px rgba(0, 0, 0, 0.75) ) drop-shadow( 0 0 20px rgba(240, 165, 0, 0.08) );
     }
 
+
+/* =========================
+   INFORMATION
+   ========================= */
+
+.details-info {
+    display: flex;
+    flex-direction: column;
+    padding: 25px 10px;
+}
+
+
 .details-category {
+    width: fit-content;
+    margin-bottom: 9px;
     color: #f0a500;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
+
 .details-info h1 {
-    font-size: 46px;
-    line-height: 1;
-    margin: 10px 0 8px;
+    margin: 0;
+    color: #f5f5f5;
+    font-size: clamp(38px, 4vw, 58px);
+    line-height: 0.98;
     font-weight: 900;
-    letter-spacing: -1.5px;
+    letter-spacing: -2.5px;
 }
+
 
 .rarity {
-    color: #999;
-    font-weight: bold;
-    font-size: 13px;
+    margin-top: 13px;
+    color: #888;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
+
+
+/* =========================
+   DESCRIPTION
+   ========================= */
 
 .description {
-    color: #888;
-    line-height: 1.7;
-    margin: 28px 0;
+    max-width: 580px;
+    margin: 35px 0;
+    padding-left: 18px;
+    border-left: 2px solid #29292f;
+    color: #858589;
+    font-size: 14px;
+    line-height: 1.8;
 }
 
+
+/* =========================
+   PROPERTIES
+   ========================= */
+
 .details-properties {
-    display: flex;
-    gap: 45px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     margin-bottom: 35px;
 }
 
+
     .details-properties div {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
+        min-width: 0;
+        padding: 15px;
+        background: #101013;
+        border: 1px solid #25252a;
+        border-radius: 7px;
+        transition: border-color 0.2s ease, background 0.2s ease;
     }
+
+
+        .details-properties div:hover {
+            background: #151519;
+            border-color: #38383f;
+        }
+
 
     .details-properties span {
+        display: block;
+        margin-bottom: 7px;
         color: #555;
-        font-size: 10px;
+        font-size: 9px;
+        font-weight: 900;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.2px;
     }
+
 
     .details-properties strong {
+        display: block;
         color: #ddd;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
+
+/* =========================
+   PURCHASE AREA
+   ========================= */
+
+.details-purchase {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 25px;
+    border-top: 1px solid #29292f;
+}
+
+
 .details-price {
-    font-size: 38px;
-    font-weight: 900;
     color: #f0a500;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+
+.details-buy-button {
+    min-width: 145px;
+    padding: 13px 22px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+    .details-buy-button:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(240, 165, 0, 0.22);
+    }
+
+
+    .details-buy-button:active {
+        transform: scale(0.98);
+    }
+
+
+/* =========================
+   ANIMATION
+   ========================= */
+
+@keyframes detailsAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1000px) {
+
+    .details-card {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .details-image {
+        min-height: 420px;
+    }
+
+    .details-info {
+        padding: 10px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .details-page {
+        padding: 30px 15px 70px;
+    }
+
+    .details-card {
+        padding: 18px;
+        border-radius: 11px;
+    }
+
+    .details-image {
+        min-height: 320px;
+    }
+
+    .details-info h1 {
+        font-size: 38px;
+    }
+
+    .details-properties {
+        grid-template-columns: 1fr;
+    }
+
+    .details-purchase {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+
+    .details-buy-button {
+        width: 100%;
+    }
 }
 
 /* =========================

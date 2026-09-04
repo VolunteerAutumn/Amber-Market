@@ -7,10 +7,14 @@ namespace Market.Controllers
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(SignInManager<IdentityUser> signInManager)
+        public AccountController(
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -18,6 +22,53 @@ namespace Market.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new IdentityUser
+            {
+                UserName = model.Username,
+                Email = model.Email,
+                EmailConfirmed = true
+            };
+
+            var result = await _userManager.CreateAsync(
+                user,
+                model.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+
+                await _signInManager.SignInAsync(
+                    user,
+                    isPersistent: false);
+
+                return RedirectToAction(
+                    "Index",
+                    "Products");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    error.Description);
+            }
+
+            return View(model);
         }
 
         [HttpPost]

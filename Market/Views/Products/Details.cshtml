@@ -1,19 +1,71 @@
 ﻿@model Market.Models.Product
 
 @{
-    ViewData["Title"] = Model.Name;
+ViewData["Title"] = Model.Name;
 }
 
-<h1>@Model.Name</h1>
+<div class="details-page">
 
-<img src="@Model.ImagePath" alt="@Model.Name" width="600" />
+<a asp-action="Index" class="back-button">
+    ← BACK TO MARKET
+</a>
 
-<h2>@Model.Category.Name</h2>
+<div class="details-card">
 
-<p><strong>Condition:</strong> @Model.Condition</p>
-<p><strong>Rarity:</strong> @Model.Rarity</p>
-<p><strong>Price:</strong> $@Model.Price</p>
+    <div class="details-image">
+        <img src="@Model.ImagePath"
+             alt="@Model.Name" />
+    </div>
 
-<p>@Model.Description</p>
+    <div class="details-info">
 
-<a asp-action="Index">← Back to Market</a>
+        <span class="details-category">
+            @Model.Category?.Name
+        </span>
+
+        <h1>@Model.Name</h1>
+
+        <div class="rarity">
+            @Model.Rarity
+        </div>
+
+        <p class="description">
+            @Model.Description
+        </p>
+
+        <div class="details-properties">
+
+            <div>
+                <span>CONDITION</span>
+                <strong>@Model.Condition</strong>
+            </div>
+
+            <div>
+                <span>RARITY</span>
+                <strong>@Model.Rarity</strong>
+            </div>
+
+            <div>
+                <span>CATEGORY</span>
+                <strong>@Model.Category?.Name</strong>
+            </div>
+
+        </div>
+
+        <div class="details-purchase">
+
+            <span class="details-price">
+                $@Model.Price
+            </span>
+
+            <button class="btn btn-primary details-buy-button">
+                BUY SKIN
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
