@@ -9,6 +9,44 @@
     <p>Counter-Strike 2 skins marketplace</p>
 </div>
 
+<div class="sort-bar">
+
+    <label for="sort">SORT BY</label>
+
+    <form asp-action="Index" method="get">
+
+        <select id="sort"
+                name="sort"
+                onchange="this.form.submit()">
+
+            <option value="">DEFAULT</option>
+
+            <option value="price_asc"
+                    selected="@(Context.Request.Query["sort"] == "price_asc")">
+                PRICE ↑
+            </option>
+
+            <option value="price_desc"
+                    selected="@(Context.Request.Query["sort"] == "price_desc")">
+                PRICE ↓
+            </option>
+
+            <option value="name"
+                    selected="@(Context.Request.Query["sort"] == "name")">
+                NAME
+            </option>
+
+            <option value="rating"
+                    selected="@(Context.Request.Query["sort"] == "rating")">
+                ★ RATING ↓
+            </option>
+
+        </select>
+
+    </form>
+
+</div>
+
 <div class="category-bar" id="categories">
     @foreach (var category in Model.Select(p => p.Category).DistinctBy(c => c.Id))
     {
@@ -28,7 +66,21 @@
 
         <div class="product-grid">
 
-            @foreach (var product in Model.Where(p => p.CategoryId == category.Id))
+            @{
+                var categoryProducts = Model
+                    .Where(p => p.CategoryId == category.Id);
+
+                categoryProducts = ViewBag.Sort switch
+                {
+                    "price_asc" => categoryProducts.OrderBy(p => p.Price),
+                    "price_desc" => categoryProducts.OrderByDescending(p => p.Price),
+                    "name" => categoryProducts.OrderBy(p => p.Name),
+                    "rating" => categoryProducts.OrderByDescending(p => p.Rating),
+                    _ => categoryProducts
+                };
+            }
+
+            @foreach (var product in categoryProducts)
             {
                 <a asp-action="Details"
                    asp-route-id="@product.Id"
@@ -54,6 +106,10 @@
                         <div class="product-meta">
                             <span class="condition">
                                 @product.Condition
+                            </span>
+
+                            <span class="rating">
+                                ★ @product.Rating.ToString("0.0")
                             </span>
 
                             <span class="price">

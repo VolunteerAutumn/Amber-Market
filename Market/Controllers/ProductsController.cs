@@ -19,11 +19,13 @@ namespace Market.Controllers
             _environment = environment;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? sort)
         {
             var products = await _context.Products
                 .Include(p => p.Category)
                 .ToListAsync();
+
+            ViewBag.Sort = sort;
 
             return View(products);
         }
@@ -199,6 +201,7 @@ namespace Market.Controllers
             existingProduct.Rarity = product.Rarity;
             existingProduct.Description = product.Description;
             existingProduct.CategoryId = product.CategoryId;
+            existingProduct.Rating = product.Rating;
 
             // If a new image was uploaded
             if (ImageFile != null && ImageFile.Length > 0)

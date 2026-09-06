@@ -41,6 +41,13 @@ ViewData["Title"] = Model.Name;
             </div>
 
             <div>
+                <span>RATING</span>
+                <strong class="details-rating">
+                    ★ @Model.Rating.ToString("0.0")
+                </strong>
+            </div>
+
+            <div>
                 <span>RARITY</span>
                 <strong>@Model.Rarity</strong>
             </div>

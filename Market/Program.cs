@@ -40,6 +40,23 @@ namespace Market
                 var context = services.GetRequiredService<MarketDbContext>();
                 Seeder.Seed(context);
 
+                foreach (var product in context.Products)
+                {
+                    product.Rating = product.Rarity switch
+                    {
+                        "Contraband" => 5.0m,
+                        "Covert" => 4.8m,
+                        "Classified" => 4.6m,
+                        "Restricted" => 4.3m,
+                        "Mil-Spec" => 4.0m,
+                        "Industrial Grade" => 3.7m,
+                        "Consumer Grade" => 3.4m,
+                        _ => 4.0m
+                    };
+                }
+
+                context.SaveChanges();
+
                 await IdentitySeeder.SeedAsync(services);
             }
 

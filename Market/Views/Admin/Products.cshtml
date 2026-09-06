@@ -23,6 +23,7 @@
                 <th>Price</th>
                 <th>Condition</th>
                 <th>Rarity</th>
+                <th>Ratings</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -44,6 +45,9 @@
                     <td>$@product.Price</td>
                     <td>@product.Condition</td>
                     <td>@product.Rarity</td>
+                    <td class="admin-rating">
+                        ★ @product.Rating.ToString("0.0")"
+                    </td>
 
                     <td>
                         <a asp-controller="Products"
