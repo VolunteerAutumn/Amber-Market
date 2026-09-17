@@ -1,0 +1,230 @@
+﻿@model Market.ViewModels.CartViewModel
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<div class="container mt-4">
+
+    <div class="market-header">
+        <h1>YOUR CART</h1>
+        <p>Review the skins you want to purchase</p>
+    </div>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="cart-empty">
+
+            <div class="cart-empty-icon">
+                🛒
+            </div>
+
+            <h2>YOUR CART IS EMPTY</h2>
+
+            <p>
+                You haven't added any skins yet.
+            </p>
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               class="btn btn-primary">
+                BACK TO MARKET
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <div class="cart-layout">
+
+            <div class="cart-items">
+
+                @foreach (var cartItem in Model.Items)
+                {
+                    var product = cartItem.Product;
+
+                    <div class="cart-item">
+
+                        <div class="cart-image">
+                            <img src="@product.ImagePath"
+                                 alt="@product.Name" />
+                        </div>
+
+                        <div class="cart-info">
+
+                            <span class="cart-category">
+                                @product.Category?.Name
+                            </span>
+
+                            <h2>@product.Name</h2>
+
+                            <span class="cart-condition">
+                                @product.Condition
+                            </span>
+
+                            <span class="cart-unit-price">
+                                $@product.Price each
+                            </span>
+
+                        </div>
+
+                        <div class="cart-quantity">
+
+                            <span class="cart-label">
+                                QUANTITY
+                            </span>
+
+                            <div class="quantity-controls">
+
+                                <form asp-action="UpdateQuantity"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@product.Id" />
+
+                                    <input type="hidden"
+                                           name="change"
+                                           value="-1" />
+
+                                    <button type="submit"
+                                            class="quantity-button">
+                                        −
+                                    </button>
+
+                                </form>
+
+                                <strong>
+                                    @cartItem.Quantity
+                                </strong>
+
+                                <form asp-action="UpdateQuantity"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@product.Id" />
+
+                                    <input type="hidden"
+                                           name="change"
+                                           value="1" />
+
+                                    <button type="submit"
+                                            class="quantity-button">
+                                        +
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                        <div class="cart-price">
+
+                            <span class="cart-label">
+                                SUBTOTAL
+                            </span>
+
+                            <strong>
+                                $@cartItem.Total
+                            </strong>
+
+                        </div>
+
+                        <form asp-action="Remove"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@product.Id" />
+
+                            <button type="submit"
+                                    class="cart-remove"
+                                    title="Remove item">
+                                ×
+                            </button>
+
+                        </form>
+
+                    </div>
+                }
+
+            </div>
+
+            <aside class="cart-summary">
+
+                <div class="cart-summary-header">
+                    <span>ORDER SUMMARY</span>
+                </div>
+
+                <div class="cart-summary-row">
+
+                    <span>
+                        Items
+                    </span>
+
+                    <span>
+                        @Model.Items.Sum(item => item.Quantity)
+                    </span>
+
+                </div>
+
+                <div class="cart-summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span>
+                        $@Model.Total
+                    </span>
+
+                </div>
+
+                <div class="cart-summary-divider"></div>
+
+                <div class="cart-summary-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        $@Model.Total
+                    </strong>
+
+                </div>
+
+                <form asp-action="Checkout"
+                      method="post">
+
+                    <button type="submit"
+                            class="btn btn-primary cart-checkout">
+                        CHECKOUT
+                    </button>
+
+                </form>
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn btn-secondary cart-continue">
+                    CONTINUE SHOPPING
+                </a>
+
+                <form asp-action="Clear"
+                      method="post">
+
+                    <button type="submit"
+                            class="cart-clear">
+                        CLEAR CART
+                    </button>
+
+                </form>
+
+            </aside>
+
+        </div>
+    }
+
+</div>

@@ -1,6 +1,11 @@
-﻿using Market.ViewModels;
+﻿using Market.Data;
+using Market.Extensions;
+using Market.Models;
+using Market.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Market.Controllers
 {
@@ -8,13 +13,16 @@ namespace Market.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly MarketDbContext _context;
 
         public AccountController(
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            MarketDbContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _context = context;
         }
 
         [HttpGet]
@@ -88,6 +96,14 @@ namespace Market.Controllers
 
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByNameAsync(
+                    model.Username);
+
+                if (user != null)
+                {
+                    await MergeSessionCartAsync(user);
+                }
+
                 if (!string.IsNullOrEmpty(returnUrl) &&
                     Url.IsLocalUrl(returnUrl))
                 {
@@ -111,6 +127,42 @@ namespace Market.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Products");
+        }
+
+        private async Task MergeSessionCartAsync(IdentityUser user)
+        {
+            var sessionCart = HttpContext.Session.GetCart();
+
+            if (!sessionCart.Any())
+                return;
+
+            foreach (var sessionItem in sessionCart)
+            {
+                var existingItem = await _context.CartItems
+                    .FirstOrDefaultAsync(item =>
+                        item.UserId == user.Id &&
+                        item.ProductId == sessionItem.ProductId);
+
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += sessionItem.Quantity;
+                }
+                else
+                {
+                    _context.CartItems.Add(
+                        new CartItem
+                        {
+                            UserId = user.Id,
+                            ProductId = sessionItem.ProductId,
+                            Quantity = sessionItem.Quantity
+                        });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            HttpContext.Session.SetCart(
+                new List<SessionCartItem>());
         }
     }
 }

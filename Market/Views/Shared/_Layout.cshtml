@@ -8,6 +8,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Market</title>
+    <link rel="icon"
+      type="image/png"
+      href="~/images/market_lg.png" />
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -18,72 +21,101 @@
         <nav class="navbar">
             <div class="navbar-container">
 
-            <a class="brand" asp-controller="Products" asp-action="Index">
-                <img src="~/images/market_lg.png" alt="Amber Market" />
-            </a>
 
-            <div class="nav-links">
-                <a asp-controller="Products" asp-action="Index">MARKET</a>
-                <a href="#categories">CATEGORIES</a>
+                <a class="brand"
+                   asp-controller="Products"
+                   asp-action="Index">
+                    <img src="~/images/market_lg.png"
+                         alt="Amber Market" />
+                </a>
 
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <span class="nav-user">
-                        Hello, @User.Identity?.Name!
-                    </span>
+                <div class="nav-links">
 
-                    @if (User.IsInRole("Admin"))
+                    <a asp-controller="Products"
+                       asp-action="Index">
+                        MARKET
+                    </a>
+
+                    <a href="#categories">
+                        CATEGORIES
+                    </a>
+
+                    <vc:cart-summary />
+
+                    @if (SignInManager.IsSignedIn(User))
                     {
-                        <a asp-controller="Admin" asp-action="Index">ADMIN PANEL</a>
+                        <span class="nav-user">
+                            Hello, @User.Identity?.Name!
+                        </span>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Admin"
+                               asp-action="Index">
+                                ADMIN PANEL
+                            </a>
+                        }
+
+                        <form asp-controller="Account"
+                              asp-action="Logout"
+                              method="post"
+                              class="logout-form">
+
+                            <button type="submit"
+                                    class="nav-button">
+                                LOGOUT
+                            </button>
+
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account"
+                           asp-action="Login">
+                            LOGIN
+                        </a>
+
+                        <a asp-controller="Account"
+                           asp-action="Register">
+                            REGISTER
+                        </a>
                     }
 
-                    <form asp-controller="Account"
-                          asp-action="Logout"
-                          method="post"
-                          class="logout-form">
-                        <button type="submit" class="nav-button">LOGOUT</button>
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login">LOGIN</a>
-                    <a asp-controller="Account" asp-action="Register">REGISTER</a>
-                }
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="market-footer">
+
+        <div class="footer-content">
+
+            <div class="footer-title">
+                Volunteer Autum's skin shop
+            </div>
+
+            <div class="footer-info">
+                <span>Code: Volunteer Autumn</span>
+                <span>Help: ChatGPT and RedBull</span>
+                <span>CSS by ChatGPT, code by Volunteer Autumn</span>
+                <span>I made a completely different website because why not lmao</span>
             </div>
 
         </div>
-    </nav>
-</header>
 
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+    </footer>
 
-<footer class="market-footer">
-
-    <div class="footer-content">
-
-        <div class="footer-title">
-            Volunteer Autum's skin shop
-        </div>
-
-        <div class="footer-info">
-            <span>Code: Volunteer Autumn</span>
-            <span>Help: ChatGPT and RedBull</span>
-            <span>CSS by ChatGPT, code by Volunteer Autumn</span>
-            <span>I made a completely different website because why not lmao</span>
-        </div>
-
-    </div>
-
-</footer>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

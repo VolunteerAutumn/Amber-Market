@@ -65,9 +65,20 @@ ViewData["Title"] = Model.Name;
                 $@Model.Price
             </span>
 
-            <button class="btn btn-primary details-buy-button">
-                BUY SKIN
-            </button>
+            <form asp-controller="Cart"
+                  asp-action="Add"
+                  method="post">
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                <button type="submit"
+                        class="btn btn-primary details-buy-button">
+                    ADD TO CART
+                </button>
+
+            </form>
 
         </div>
 
